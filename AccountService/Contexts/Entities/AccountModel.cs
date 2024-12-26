@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -11,5 +12,7 @@ namespace AccountService.Contexts.Entities
         public string AccountType { get; set; }
         public string Name { get; set; } 
         public decimal Balance { get; set; }
+
+        public ICollection<TransactionModel> Transactions { get; }
     }
 }

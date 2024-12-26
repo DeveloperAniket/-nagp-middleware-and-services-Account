@@ -24,7 +24,36 @@ namespace AccountService.Controllers
         [Route("statement/{accountNumber}")]
         public IActionResult Get(int accountNumber)
         {
-            return Ok(accountNumber);
+            var result = _accountDataBaseService.GetStatement(accountNumber);
+
+
+            if (result == null || result.AccountNumber != accountNumber)
+            {
+                return BadRequest("Account Not Found");
+            }
+
+            var response = new StatementResponse()
+            {
+                AccountNumber = result.AccountNumber,
+                AccountType = result.AccountType,
+                AccountBalance = result.Balance,
+                Name = result.Name,
+                StatementDetails = new List<TransactionDetails>()
+            };
+            foreach (var transaction in result.Transactions ?? [])
+            {
+                var transactionDetail = new TransactionDetails()
+                {
+                    Amount = transaction.Amount,
+                    ToAccount = transaction.ToAccount,
+                    TransactionDateTime = transaction.TransactionDateTime,
+                    TransactionId = transaction.TransactionId,
+                    TransactionType = transaction.TransactionType.ToString()
+                };
+                response.StatementDetails.Add(transactionDetail);
+            }
+
+            return Ok(response);
         }
 
         [HttpGet]
@@ -57,7 +86,7 @@ namespace AccountService.Controllers
                 };
 
                 var eventResult = await _rabbitMqService.RaiseCreateAccount(eventReq);
-                
+
                 var response = new CreateAccountRespeonseDto()
                 {
                     IsSuccess = true,

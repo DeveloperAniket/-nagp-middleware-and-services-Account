@@ -5,5 +5,6 @@ namespace AccountService.Services
     public interface IAccountDataBaseService
     {
         public AccountModel? CreateNewAccount(AccountModel account);
+        AccountModel? GetStatement(int accountNumber);
     }
 }

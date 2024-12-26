@@ -30,7 +30,7 @@ namespace NotificationService2
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                Console.WriteLine($" Order Update Event Received {message}");
+                Console.WriteLine($" New Account Created => {message}");
 
                 Console.WriteLine($"-------------------------------------------------------------------------------------------------------------");
 
