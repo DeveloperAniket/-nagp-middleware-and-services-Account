@@ -1,12 +1,10 @@
 ﻿
 using Grpc.Net.Client;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client;
-using System.Text;
-using System.Text.Json;
 using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Data.Common;
+using System.Text;
 
 namespace PdfGenerationService
 {
@@ -16,13 +14,15 @@ namespace PdfGenerationService
         {
 
             Console.WriteLine("Start PdfGenerationService");
+            
+            var program = new Program();
 
+            await program.SubscribePdrRequestEvent();
 
-            await SubscribePdrRequestEvent();
-       
+            Console.ReadLine();
         }
 
-        private static async Task SubscribePdrRequestEvent()
+        private async Task SubscribePdrRequestEvent()
         {
             var connectionFactory = new ConnectionFactory { HostName = "localhost" };
             using var connection = await connectionFactory.CreateConnectionAsync();
@@ -34,7 +34,7 @@ namespace PdfGenerationService
 
 
             var AccCreateEventConsumer = new AsyncEventingBasicConsumer(channel);
-            AccCreateEventConsumer.ReceivedAsync += (model, ea) =>
+            AccCreateEventConsumer.ReceivedAsync += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
@@ -44,16 +44,22 @@ namespace PdfGenerationService
                 if (jsonObj != null)
                 {
                     StatementResponse channel = GetStatementData(jsonObj.AccountNumber);
+
+                    if (channel != null && channel.Statementdetail != null && channel.Statementdetail.TransactionDetails.Count != 0)
+                    {
+                        Thread.Sleep(2000);
+                        await RaiseOrderCreate(channel);
+                    }
                 }
-              
-                Console.WriteLine($"-------------------------------------------------------------------------------------------------------------");
 
                 Console.WriteLine($"-------------------------------------------------------------------------------------------------------------");
 
-                return Task.CompletedTask;
-            };
+                Console.WriteLine($"-------------------------------------------------------------------------------------------------------------");
+             };
 
             await channel.BasicConsumeAsync("Pdf-Request", autoAck: true, consumer: AccCreateEventConsumer);
+
+            Console.ReadLine();
         }
 
         private static StatementResponse GetStatementData(int accountNumber)
@@ -65,6 +71,25 @@ namespace PdfGenerationService
             var reply = client.GetStatement(new StatementRequest { AccountNumber = accountNumber });
             Console.WriteLine("Greeting: " + reply.Statementdetail.Name);
             return reply;
+        }
+
+        private async Task RaiseOrderCreate(StatementResponse deatils)
+        {
+            var connectionFactory = new ConnectionFactory { HostName = "localhost" };
+            using var connection = await connectionFactory.CreateConnectionAsync();
+            using var channel = await connection.CreateChannelAsync();
+
+            await channel.QueueDeclareAsync("PDFCreationQueue1", durable: true, exclusive: false, autoDelete: false);
+            await channel.QueueDeclareAsync("PDFCreationQueue2", durable: true, exclusive: false, autoDelete: false);
+            await channel.ExchangeDeclareAsync("FanoutExchange", ExchangeType.Fanout, durable: true, autoDelete: false);
+            await channel.QueueBindAsync("PDFCreationQueue1", "FanoutExchange", string.Empty);
+            await channel.QueueBindAsync("PDFCreationQueue2", "FanoutExchange", string.Empty);
+
+            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(deatils));
+
+            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "Pdf-Completed", body: body);
+
+            await Task.CompletedTask;
         }
     }
 }
