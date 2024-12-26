@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService1", "Not
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService2", "NotificationService2\NotificationService2.csproj", "{45885C4C-BC0E-4801-A676-2DC4A6545B1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfGenerationService", "PdfGenerationService\PdfGenerationService.csproj", "{AD16EAFE-8B02-4860-A782-62532CE7D2C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseContext", "DatabaseContext\DatabaseContext.csproj", "{EA5A5975-1EF7-4484-A6F6-60F8F316FC71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{45885C4C-BC0E-4801-A676-2DC4A6545B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45885C4C-BC0E-4801-A676-2DC4A6545B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45885C4C-BC0E-4801-A676-2DC4A6545B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD16EAFE-8B02-4860-A782-62532CE7D2C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD16EAFE-8B02-4860-A782-62532CE7D2C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD16EAFE-8B02-4860-A782-62532CE7D2C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD16EAFE-8B02-4860-A782-62532CE7D2C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA5A5975-1EF7-4484-A6F6-60F8F316FC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA5A5975-1EF7-4484-A6F6-60F8F316FC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA5A5975-1EF7-4484-A6F6-60F8F316FC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA5A5975-1EF7-4484-A6F6-60F8F316FC71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

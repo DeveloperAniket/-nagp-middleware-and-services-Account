@@ -1,6 +1,8 @@
 ﻿using AccountService.Contexts.Entities;
 using AccountService.Dtos;
 using AccountService.Services;
+using DatabaseContext.Contexts.Entities;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using SharedProject;
 
@@ -24,7 +26,7 @@ namespace AccountService.Controllers
         [Route("statement/{accountNumber}")]
         public IActionResult Get(int accountNumber)
         {
-            var result = _accountDataBaseService.GetStatement(accountNumber);
+            var result = _accountDataBaseService.GetStatementDetails(accountNumber);
 
 
             if (result == null || result.AccountNumber != accountNumber)
@@ -32,17 +34,17 @@ namespace AccountService.Controllers
                 return BadRequest("Account Not Found");
             }
 
-            var response = new StatementResponse()
+            var response = new StatementResponseDto()
             {
                 AccountNumber = result.AccountNumber,
                 AccountType = result.AccountType,
                 AccountBalance = result.Balance,
                 Name = result.Name,
-                StatementDetails = new List<TransactionDetails>()
+                StatementDetails = new List<TransactionDetailDto>()
             };
             foreach (var transaction in result.Transactions ?? [])
             {
-                var transactionDetail = new TransactionDetails()
+                var transactionDetail = new TransactionDetailDto()
                 {
                     Amount = transaction.Amount,
                     ToAccount = transaction.ToAccount,
@@ -60,9 +62,20 @@ namespace AccountService.Controllers
         [Route("statement/pdf/{accountNumber}")]
         public IActionResult RequestPdfStatement(int accountNumber)
         {
-            return Ok(accountNumber);
-        }
+            var result = _accountDataBaseService.GetStatementDetails(accountNumber);
 
+            if (result != null && result.AccountNumber == accountNumber)
+            {
+                var requestId = Guid.NewGuid();
+                var request = new CreatePdfGenerateEventRequest() { AccountNumber = accountNumber, RequestId = requestId };
+                _rabbitMqService.RaisePDFGenerateRequest(request);
+                return Ok(request);
+            }
+            else
+            {
+                return BadRequest("Account Not Found");
+            }
+        }
 
 
         [HttpPost]

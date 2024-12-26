@@ -1,0 +1,35 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "AccountService";
+
+package statement;
+
+// The greeting service definition.
+service Statement {
+  // Sends a greeting
+  rpc GetStatement (StatementRequest) returns (StatementResponse);
+}
+
+message StatementRequest {
+    int32 accountNumber = 1;
+}
+
+message StatementResponse {
+    StatementDetail statementdetail = 1;
+}
+
+message StatementDetail {
+    int32 account_number = 1;
+    string name = 2;
+    string account_type = 3;
+    double account_balance = 4;
+    repeated TransactionDetail transaction_details = 5;
+}
+
+message TransactionDetail {
+    string transaction_id = 1;
+	string transaction_datetime = 2;
+	int32 to_account = 3;
+    string transaction_type = 4;
+    double amount = 5;  
+}

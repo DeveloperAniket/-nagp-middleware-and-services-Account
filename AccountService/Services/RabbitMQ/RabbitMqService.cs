@@ -40,5 +40,26 @@ namespace SharedProject
                 return false;
             }
         }
+
+        public async Task<bool> RaisePDFGenerateRequest(CreatePdfGenerateEventRequest pdfRequest)
+        {
+            try
+            {
+                using var connection = await _connectionFactory.CreateConnectionAsync();
+                using var channel = await connection.CreateChannelAsync();
+
+                await channel.QueueDeclareAsync(queue: "Pdf-Request", durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+                var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(pdfRequest));
+
+                await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "Pdf-Request", body: body);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -1,9 +1,6 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Diagnostics;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace AccountService.Contexts.Entities
+namespace DatabaseContext.Contexts.Entities
 {
     public class TransactionModel
     {
@@ -12,7 +9,7 @@ namespace AccountService.Contexts.Entities
         public int FromAccount { get; set; }
         public int ToAccount { get; set; }
         public TransactionType TransactionType { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         public DateTimeOffset TransactionDateTime { get; set; }
         public AccountModel? FromAccountDetails { get; set; }
     }

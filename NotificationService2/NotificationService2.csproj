@@ -10,5 +10,5 @@
 
 		<PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
 	</ItemGroup>
-
+	
 </Project>

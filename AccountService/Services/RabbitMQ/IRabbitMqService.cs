@@ -5,6 +5,8 @@ namespace SharedProject
 {
     public interface IRabbitMqService
     {
-        Task<bool> RaiseCreateAccount(CreateAccountEventRequest accountRequestDto);
+        Task<bool> RaiseCreateAccount(CreateAccountEventRequest accountRequest);
+
+        Task<bool> RaisePDFGenerateRequest(CreatePdfGenerateEventRequest pdfRequest );
     }
 }

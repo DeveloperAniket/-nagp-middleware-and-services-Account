@@ -1,29 +1,14 @@
 ﻿using AccountService.Contexts;
 using AccountService.Contexts.Entities;
+using DatabaseContext.Contexts.Entities;
+using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace AccountService.Services
 {
-    public class AccountDataBaseService : IAccountDataBaseService
+    public class AccountDataBaseService : Statement.StatementBase, IAccountDataBaseService
     {
-        public AccountDataBaseService()
-        {
-            //LoadData();
-
-
-            //void LoadData()
-            //{
-            //    using (var context = new AccountContext())
-            //    {
-            //        var accountModel = new AccountModel() {   AccountNumber = 1, AccountType = "Saving", Balance = 1001, Name = "Test Demo Name" };
-            //        context.Accounts.Add(accountModel);
-            //        var accountModel1 = new AccountModel() {  AccountNumber = 2, AccountType = "Current", Balance = 50, Name = "Demo Name" };
-            //        context.Accounts.Add(accountModel1);
-            //        context.SaveChanges();
-            //    }
-            //}
-        }
         public AccountModel? CreateNewAccount(AccountModel account)
         {
             try
@@ -45,7 +30,7 @@ namespace AccountService.Services
         }
 
 
-        public AccountModel? GetStatement(int accountNumber)
+        public AccountModel? GetStatementDetails(int accountNumber)
         {
             try
             {
@@ -61,6 +46,70 @@ namespace AccountService.Services
                 // Log  exception;
                 return null;
             }
+
+        }
+
+        //public override Task<StatementResponse> GetStatement(StatementDetails request, ServerCallContext context)
+        //{
+        //    var result = GetStatementDetails(request.AccountNumber);
+
+
+        //    var response = new StatementResponse()
+        //    {
+        //        Name = result.Name,
+        //        AccountType = result.AccountType,
+        //        AccountBalance = result.Balance,
+        //        Name = result.Name,
+        //        StatementDetails = new List<TransactionDetailDto>()
+        //    };
+        //    foreach (var transaction in result.Transactions ?? [])
+        //    {
+        //        var transactionDetail = new TransactionDetailDto()
+        //        {
+        //            Amount = transaction.Amount,
+        //            ToAccount = transaction.ToAccount,
+        //            TransactionDateTime = transaction.TransactionDateTime,
+        //            TransactionId = transaction.TransactionId,
+        //            TransactionType = transaction.TransactionType.ToString()
+        //        };
+        //        response.StatementDetails.Add(transactionDetail);
+        //    }
+        //    return Task.FromResult(response);
+        //}
+
+        public override Task<StatementResponse> GetStatement(StatementRequest request, ServerCallContext context)
+        {
+            var result = GetStatementDetails(request.AccountNumber);
+            if (result != null)
+            {
+                var response = new StatementDetail()
+                {
+                    AccountNumber = result.AccountNumber,
+                    AccountType = result.AccountType,
+                    AccountBalance = result.Balance,
+                    Name = result.Name,
+
+                };
+
+                foreach (var transaction in result.Transactions ?? [])
+                {
+                    var transactionDetail = new TransactionDetail()
+                    {
+                        Amount = transaction.Amount,
+                        ToAccount = transaction.ToAccount,
+                        TransactionDatetime = transaction.TransactionDateTime.ToString(),
+                        TransactionId = transaction.TransactionId.ToString(),
+                        TransactionType = transaction.TransactionType.ToString()
+                    };
+                    response.TransactionDetails.Add(transactionDetail);
+                }
+
+                var responseFinal = new StatementResponse();
+                responseFinal.Statementdetail = response;
+                return Task.FromResult(responseFinal);
+            }
+
+            return Task.FromResult(new StatementResponse());
 
         }
     }

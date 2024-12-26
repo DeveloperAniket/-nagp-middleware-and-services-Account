@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "PdfGenerationService": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58990;http://localhost:58991"
+    }
+  }
+}

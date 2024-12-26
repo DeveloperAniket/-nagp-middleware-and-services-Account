@@ -15,11 +15,11 @@ namespace AccountService
 
             // Add services to the container.
 
+            // Add services to the container.
+            builder.Services.AddGrpc();
 
             builder.Services.AddSingleton<IAccountDataBaseService, AccountDataBaseService>();
-            builder.Services.AddSingleton<IRabbitMqService, RabbitMqService>();
-            //builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase(databaseName: "AccountDb"));
-            //builder.Services.AddScoped<AccountContext>();
+            builder.Services.AddSingleton<IRabbitMqService, RabbitMqService>();             
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -36,6 +36,8 @@ namespace AccountService
 
             app.UseAuthorization();
 
+            app.MapGrpcService<AccountDataBaseService>();
+            //app.MapGet("/grpc", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
             app.MapControllers();
 
