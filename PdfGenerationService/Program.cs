@@ -88,7 +88,7 @@ namespace PdfGenerationService
 
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(deatils));
 
-            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "Pdf-Completed", body: body);
+            await channel.BasicPublishAsync(exchange: "FanoutExchange", routingKey: "Pdf-Completed", body: body);
 
             await Task.CompletedTask;
         }
