@@ -9,12 +9,6 @@ namespace NotificationService1
         static async Task Main(string[] args)
         {
             Console.WriteLine("Start NotificationService1");
-            await ListenPDFCreated();
-            Console.ReadLine();
-        }
-
-        private static async Task ListenPDFCreated()
-        {
             var connectionFactory = new ConnectionFactory { HostName = "localhost" };
             using var connection = await connectionFactory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();
@@ -27,8 +21,8 @@ namespace NotificationService1
             Console.WriteLine("Waiting for notification 1.");
 
 
-            var AccCreateEventConsumer = new AsyncEventingBasicConsumer(channel);
-            AccCreateEventConsumer.ReceivedAsync += (model, ea) =>
+            var AccPdfEventConsumer = new AsyncEventingBasicConsumer(channel);
+            AccPdfEventConsumer.ReceivedAsync += (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
@@ -41,7 +35,10 @@ namespace NotificationService1
                 return Task.CompletedTask;
             };
 
-            await channel.BasicConsumeAsync("PDFCreationQueue1", autoAck: true, consumer: AccCreateEventConsumer);
+            await channel.BasicConsumeAsync("PDFCreationQueue1", autoAck: true, consumer: AccPdfEventConsumer);
+            Console.ReadLine();
         }
+
+      
     }
 }

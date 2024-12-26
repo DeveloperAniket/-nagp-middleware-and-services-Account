@@ -11,14 +11,6 @@ namespace NotificationService2
         static async Task Main(string[] args)
         {
             Console.WriteLine("Start NotificationService2");
-            await ListenAccountCreated();
-            await ListenPDFCreated();
-
-            Console.ReadLine();
-        }
-
-        private static async Task ListenAccountCreated()
-        {
             var connectionFactory = new ConnectionFactory { HostName = "localhost" };
             using var connection = await connectionFactory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();
@@ -46,13 +38,12 @@ namespace NotificationService2
             };
 
             await channel.BasicConsumeAsync("AccountCreatedQueue", autoAck: true, consumer: AccCreateEventConsumer);
-        }
 
-        private static async Task ListenPDFCreated()
-        {
-            var connectionFactory = new ConnectionFactory { HostName = "localhost" };
-            using var connection = await connectionFactory.CreateConnectionAsync();
-            using var channel = await connection.CreateChannelAsync();
+
+
+            var connectionFactory2 = new ConnectionFactory { HostName = "localhost" };
+            using var connection2 = await connectionFactory.CreateConnectionAsync();
+            using var channel2 = await connection.CreateChannelAsync();
             await channel.QueueDeclareAsync(queue: "PDFCreationQueue2", durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             await channel.ExchangeDeclareAsync(exchange: "FanoutExchange", type: ExchangeType.Fanout, durable: true, autoDelete: false);
@@ -62,8 +53,8 @@ namespace NotificationService2
             Console.WriteLine("Waiting for notification.");
 
 
-            var AccCreateEventConsumer = new AsyncEventingBasicConsumer(channel);
-            AccCreateEventConsumer.ReceivedAsync += (model, ea) =>
+            var AccPDFEventConsumer = new AsyncEventingBasicConsumer(channel2);
+            AccPDFEventConsumer.ReceivedAsync += (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
@@ -76,7 +67,11 @@ namespace NotificationService2
                 return Task.CompletedTask;
             };
 
-            await channel.BasicConsumeAsync("PDFCreationQueue2", autoAck: true, consumer: AccCreateEventConsumer);
+            await channel.BasicConsumeAsync("PDFCreationQueue2", autoAck: true, consumer: AccPDFEventConsumer);
+
+            Console.ReadLine();
         }
+
+         
     }
 }
