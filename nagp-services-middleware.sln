@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountService", "AccountService\AccountService.csproj", "{F1BB68E8-D209-4954-BCCA-A543AA740B7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountService", "AccountService\AccountService.csproj", "{F1BB68E8-D209-4954-BCCA-A543AA740B7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService1", "NotificationService1\NotificationService1.csproj", "{1426CB53-461B-4649-BCB3-FC99610980DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService2", "NotificationService2\NotificationService2.csproj", "{45885C4C-BC0E-4801-A676-2DC4A6545B1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{F1BB68E8-D209-4954-BCCA-A543AA740B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1BB68E8-D209-4954-BCCA-A543AA740B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1BB68E8-D209-4954-BCCA-A543AA740B7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1426CB53-461B-4649-BCB3-FC99610980DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1426CB53-461B-4649-BCB3-FC99610980DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1426CB53-461B-4649-BCB3-FC99610980DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1426CB53-461B-4649-BCB3-FC99610980DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45885C4C-BC0E-4801-A676-2DC4A6545B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45885C4C-BC0E-4801-A676-2DC4A6545B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45885C4C-BC0E-4801-A676-2DC4A6545B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45885C4C-BC0E-4801-A676-2DC4A6545B1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
