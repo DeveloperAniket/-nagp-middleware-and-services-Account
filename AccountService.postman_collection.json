@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "b1c00423-3556-4566-a6e0-a543d094989c",
+		"name": "AccountService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2351437"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "Accounts",
+					"item": [
+						{
+							"name": "statement",
+							"item": [
+								{
+									"name": "{accountNumber}",
+									"item": [
+										{
+											"name": "/api/Accounts/statement/:accountNumber",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Accounts/statement/:accountNumber",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Accounts",
+														"statement",
+														":accountNumber"
+													],
+													"variable": [
+														{
+															"key": "accountNumber",
+															"value": "2",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/api/Accounts/statement/:accountNumber",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"Accounts",
+																"statement",
+																":accountNumber"
+															],
+															"variable": [
+																{
+																	"key": "accountNumber"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "pdf",
+									"item": [
+										{
+											"name": "{accountNumber}",
+											"item": [
+												{
+													"name": "/api/Accounts/statement/pdf/:accountNumber",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/api/Accounts/statement/pdf/:accountNumber",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"Accounts",
+																"statement",
+																"pdf",
+																":accountNumber"
+															],
+															"variable": [
+																{
+																	"key": "accountNumber",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{baseUrl}}/api/Accounts/statement/pdf/:accountNumber",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"Accounts",
+																		"statement",
+																		"pdf",
+																		":accountNumber"
+																	],
+																	"variable": [
+																		{
+																			"key": "accountNumber"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [],
+															"cookie": [],
+															"body": ""
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "/api/Accounts/create",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"fullName\": \"<string>\",\n  \"accountType\": 0\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Accounts/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Accounts",
+												"create"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"fullName\": \"<string>\",\n  \"accountType\": 0\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Accounts/create",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Accounts",
+														"create"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/"
+		}
+	]
+}

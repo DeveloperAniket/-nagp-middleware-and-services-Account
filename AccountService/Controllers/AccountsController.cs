@@ -27,6 +27,14 @@ namespace AccountService.Controllers
             return Ok(accountNumber);
         }
 
+        [HttpGet]
+        [Route("statement/pdf/{accountNumber}")]
+        public IActionResult RequestPdfStatement(int accountNumber)
+        {
+            return Ok(accountNumber);
+        }
+
+
 
         [HttpPost]
         [Route("create")]
