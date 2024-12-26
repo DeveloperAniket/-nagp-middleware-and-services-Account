@@ -47,6 +47,7 @@ namespace PdfGenerationService
 
                     if (channel != null && channel.Statementdetail != null && channel.Statementdetail.TransactionDetails.Count != 0)
                     {
+                        Console.WriteLine($" PDF In Progress => {message}");
                         Thread.Sleep(2000);
                         await RaiseOrderCreate(channel);
                     }
