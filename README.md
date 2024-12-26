@@ -4,7 +4,7 @@ This Project demonstrates a microservices architecture with services for Product
 # **Pre-requisites and assumptions**
 Following softwares should be installed
 - .NET 8
-- Docker
+- RabbitMq Local
 - RabbitMq server running 
 
  
